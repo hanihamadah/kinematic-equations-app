@@ -16,8 +16,8 @@
 
 ## Deployment Rules
 1. **Always deploy to Cloudflare Pages** — this is the user's preferred host
-2. **Never deploy from Claude Code cloud** — Cloudflare blocks the IP; always fails
-3. **Direct user to run wrangler on their Mac** — it takes 60 seconds and always works
+2. Claude Code cloud CAN deploy to Cloudflare if the token has no IP restrictions
+3. If "Host not in allowlist" error appears, the token was created with IP filtering — ask user to create a new token leaving "Client IP Address Filtering" empty
 4. Do not offer GitHub Pages or htmlpreview as alternatives unless Cloudflare is truly unavailable
 
 ## Cloudflare Projects (as of 2026-06-01)

@@ -9,12 +9,15 @@ Physics slide decks for a teacher (Hani Hamadeh). Each `index.html` is a self-co
 - **Source file**: `index.html` in this repo (main branch)
 
 ## How to Redeploy to Cloudflare
-Cloudflare API calls are BLOCKED from Claude Code cloud sessions (IP not in allowlist).
-Deployment MUST be done from the user's local Mac. Tell the user to run in Terminal:
+Claude Code cloud CAN deploy to Cloudflare — but the API token must have NO IP restrictions.
+
+If deployment fails with "Host not in allowlist", the token was created with IP filtering enabled.
+Fix: create a new token at dash.cloudflare.com → My Profile → API Tokens → Create Token
+→ use "Edit Cloudflare Workers" template → leave "Client IP Address Filtering" EMPTY → save.
+
+Then set the token and deploy:
 ```bash
-cd ~/Downloads/work-slides
-curl -O https://raw.githubusercontent.com/hanihamadah/kinematic-equations-app/main/index.html
-wrangler pages deploy . --project-name work-done-by-weight
+CLOUDFLARE_API_TOKEN=<token> wrangler pages deploy /home/user/kinematic-equations-app --project-name work-done-by-weight
 ```
 
 ## User Preferences
@@ -27,7 +30,7 @@ wrangler pages deploy . --project-name work-done-by-weight
 ## Known Issues / Lessons from Session 2026-06-01
 - GitHub Pages was never enabled (Branch: None) — caused 404 links to be shared with students
 - iOS Safari hides bottom nav when using `100vh` — fix is `position: fixed` on `#nav`
-- Cloudflare API tokens with IP restrictions fail with "Host not in allowlist" — do not ask user to create tokens for use from this cloud environment
+- Cloudflare "Host not in allowlist" error means the TOKEN has IP filtering enabled, not that the cloud server is blocked. Cloudflare worked fine from cloud 30 hours prior with an unrestricted token.
 - The repo name "kinematic-equations-app" is misleading — content is about Work & Energy
 
 ## Cloudflare Token Security
