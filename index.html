@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Work Done by Weight — Slide Deck</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:  #3fb950;
+      --red:    #f85149;
+      --blue:   #58a6ff;
+      --purple: #d2a8ff;
+      --orange: #ffa657;
+      --yellow: #e3b341;
+      --bg:     #0d1117;
+      --surf:   #161b22;
+      --border: rgba(255,255,255,0.08);
+      --muted:  #8b949e;
+      --text:   #c9d1d9;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      overflow: hidden;
+    }
+
+    /* ─── layout ─────────────────────────────────────── */
+    #app {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    /* progress bar */
+    #progress {
+      height: 3px;
+      background: rgba(255,255,255,0.06);
+      flex-shrink: 0;
+    }
+    #progress-fill {
+      height: 100%;
+      background: var(--blue);
+      transition: width 0.4s ease;
+    }
+
+    /* slide viewport */
+    #deck {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 56px;
+      text-align: center;
+      opacity: 0;
+      transform: translateX(50px);
+      transition: opacity 0.38s ease, transform 0.38s ease;
+      pointer-events: none;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    .slide::-webkit-scrollbar { display: none; }
+    .slide.active  { opacity: 1; transform: translateX(0);   pointer-events: all; }
+    .slide.out-left{ opacity: 0; transform: translateX(-50px); }
+
+    /* ─── slide themes ────────────────────────────────── */
+    .s-title    { background: radial-gradient(ellipse at 50% 0%, #1c2a3a 0%, #0d1117 70%); }
+    .s-question { background: radial-gradient(ellipse at 50% 0%, #1a1a2e 0%, #0d1117 70%); }
+    .s-concept  { background: radial-gradient(ellipse at 50% 0%, #0f2027 0%, #0d1117 70%); }
+    .s-derive   { background: radial-gradient(ellipse at 50% 0%, #1a0f27 0%, #0d1117 70%); }
+    .s-up       { background: radial-gradient(ellipse at 50% 0%, #0d2818 0%, #0d1117 70%); }
+    .s-down     { background: radial-gradient(ellipse at 50% 0%, #2a0d0d 0%, #0d1117 70%); }
+    .s-ex1      { background: radial-gradient(ellipse at 50% 0%, #1a2a0d 0%, #0d1117 70%); }
+    .s-ex2      { background: radial-gradient(ellipse at 50% 0%, #2a1a0d 0%, #0d1117 70%); }
+    .s-ex3      { background: radial-gradient(ellipse at 50% 0%, #0d1a2a 0%, #0d1117 70%); }
+    .s-summary  { background: radial-gradient(ellipse at 50% 0%, #1c2128 0%, #0d1117 70%); }
+
+    /* ─── typography ──────────────────────────────────── */
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+    }
+    .badge-blue   { background: rgba(88,166,255,.14);  color: var(--blue);   border: 1px solid rgba(88,166,255,.3); }
+    .badge-purple { background: rgba(210,153,255,.14); color: var(--purple); border: 1px solid rgba(210,153,255,.3);}
+    .badge-green  { background: rgba(63,185,80,.14);   color: var(--green);  border: 1px solid rgba(63,185,80,.3);  }
+    .badge-red    { background: rgba(248,81,73,.14);   color: var(--red);    border: 1px solid rgba(248,81,73,.3);  }
+    .badge-orange { background: rgba(255,166,87,.14);  color: var(--orange); border: 1px solid rgba(255,166,87,.3); }
+    .badge-yellow { background: rgba(227,179,65,.14);  color: var(--yellow); border: 1px solid rgba(227,179,65,.3); }
+
+    h1 { font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 800; line-height: 1.15; letter-spacing: -.02em; margin-bottom: 14px; }
+    h2 { font-size: clamp(1.4rem, 3vw, 2.2rem); font-weight: 700; letter-spacing: -.01em; margin-bottom: 16px; }
+    h3 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+
+    .lead { font-size: clamp(1rem, 1.8vw, 1.25rem); color: #c9d1d9; line-height: 1.65; max-width: 720px; }
+    p, li { font-size: clamp(.9rem, 1.6vw, 1.05rem); color: var(--muted); line-height: 1.7; max-width: 760px; }
+
+    /* ─── formula boxes ───────────────────────────────── */
+    .fbox {
+      border-radius: 14px;
+      padding: 18px 36px;
+      margin: 16px 0;
+      font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+      font-weight: 700;
+      letter-spacing: .04em;
+      backdrop-filter: blur(6px);
+    }
+    .fbox-blue   { color: var(--blue);   background: rgba(88,166,255,.08);  border: 1px solid rgba(88,166,255,.35); }
+    .fbox-green  { color: var(--green);  background: rgba(63,185,80,.08);   border: 1px solid rgba(63,185,80,.35);  }
+    .fbox-red    { color: var(--red);    background: rgba(248,81,73,.08);   border: 1px solid rgba(248,81,73,.35);  }
+    .fbox-purple { color: var(--purple); background: rgba(210,153,255,.08); border: 1px solid rgba(210,153,255,.35);}
+    .fbox-orange { color: var(--orange); background: rgba(255,166,87,.08);  border: 1px solid rgba(255,166,87,.35); }
+
+    /* ─── step rows ───────────────────────────────────── */
+    .steps { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 700px; margin-top: 12px; }
+    .step {
+      display: flex; align-items: flex-start; gap: 14px;
+      background: rgba(255,255,255,.035); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 18px; text-align: left;
+    }
+    .step-icon {
+      flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem; font-weight: 700;
+    }
+    .si-blue   { background: rgba(88,166,255,.18);  color: var(--blue);   }
+    .si-purple { background: rgba(210,153,255,.18); color: var(--purple); }
+    .si-green  { background: rgba(63,185,80,.18);   color: var(--green);  }
+    .si-red    { background: rgba(248,81,73,.18);   color: var(--red);    }
+    .step-body { color: var(--text); font-size: .97rem; line-height: 1.6; }
+    .step-body strong { color: #e6edf3; }
+
+    /* ─── two-column grid ─────────────────────────────── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; max-width: 860px; margin-top: 16px; }
+    .card { border-radius: 14px; padding: 24px 22px; text-align: left; }
+    .card-green { background: rgba(63,185,80,.07);  border: 1px solid rgba(63,185,80,.3);  }
+    .card-red   { background: rgba(248,81,73,.07);  border: 1px solid rgba(248,81,73,.3);  }
+    .card-blue  { background: rgba(88,166,255,.07); border: 1px solid rgba(88,166,255,.3); }
+    .card h3.green  { color: var(--green);  }
+    .card h3.red    { color: var(--red);    }
+    .card h3.blue   { color: var(--blue);   }
+    .card p { font-size: .92rem; max-width: none; margin-top: 8px; }
+    .card .cf { font-size: 1.3rem; font-weight: 700; margin-top: 12px; padding: 8px 14px; border-radius: 9px; display: inline-block; }
+    .card-green .cf { color: var(--green);  background: rgba(63,185,80,.1); }
+    .card-red   .cf { color: var(--red);    background: rgba(248,81,73,.1); }
+    .card-blue  .cf { color: var(--blue);   background: rgba(88,166,255,.1); }
+
+    /* ─── derivation table ────────────────────────────── */
+    .derive-table { width: 100%; max-width: 680px; margin-top: 14px; border-collapse: separate; border-spacing: 0 8px; }
+    .derive-table td { padding: 12px 18px; font-size: .97rem; }
+    .derive-table td:first-child { color: var(--muted); width: 36px; font-weight: 700; font-size: 1.1rem; }
+    .derive-table td:nth-child(2) { background: rgba(255,255,255,.035); border-radius: 10px 0 0 10px; color: var(--text); border: 1px solid var(--border); border-right: none; }
+    .derive-table td:last-child   { background: rgba(255,255,255,.035); border-radius: 0 10px 10px 0; font-weight: 700; text-align: right; border: 1px solid var(--border); border-left: none; }
+
+    /* ─── solved example layout ───────────────────────── */
+    .ex-box {
+      background: rgba(255,255,255,.035); border: 1px solid var(--border);
+      border-radius: 16px; padding: 20px 28px;
+      width: 100%; max-width: 700px; text-align: left; margin-top: 14px;
+    }
+    .ex-box .given { color: var(--muted); font-size: .88rem; margin-bottom: 12px; }
+    .ex-box .sol-step { display: flex; align-items: baseline; gap: 10px; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.05); font-size: .95rem; color: var(--text); }
+    .ex-box .sol-step:last-child { border-bottom: none; }
+    .ex-box .sol-step .num { color: var(--muted); min-width: 20px; font-size: .8rem; font-weight: 700; }
+    .ans-banner { border-radius: 12px; padding: 14px 22px; font-size: 1.35rem; font-weight: 700; margin-top: 14px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .ans-green { background: rgba(63,185,80,.12);  border: 1px solid rgba(63,185,80,.4);  color: var(--green);  }
+    .ans-red   { background: rgba(248,81,73,.12);  border: 1px solid rgba(248,81,73,.4);  color: var(--red);    }
+    .ans-blue  { background: rgba(88,166,255,.12); border: 1px solid rgba(88,166,255,.4); color: var(--blue);   }
+
+    /* ─── SVG diagram wrapper ─────────────────────────── */
+    .diag { margin: 10px auto 0; }
+
+    /* ─── highlight spans ─────────────────────────────── */
+    .g  { color: var(--green);  font-weight: 700; }
+    .r  { color: var(--red);    font-weight: 700; }
+    .b  { color: var(--blue);   font-weight: 700; }
+    .pu { color: var(--purple); font-weight: 700; }
+    .or { color: var(--orange); font-weight: 700; }
+    .ye { color: var(--yellow); font-weight: 700; }
+    .wh { color: #e6edf3;       font-weight: 600; }
+
+    /* ─── navigation ──────────────────────────────────── */
+    #nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 32px;
+      background: rgba(255,255,255,.02);
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .nav-btn {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      color: var(--text); padding: 9px 22px;
+      border-radius: 9px; font-size: .9rem; font-weight: 600;
+      cursor: pointer; transition: background .2s, border-color .2s;
+      min-width: 110px; justify-content: center;
+    }
+    .nav-btn:hover:not(:disabled) { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.25); }
+    .nav-btn:disabled { opacity: .3; cursor: default; }
+    .nav-btn svg { flex-shrink: 0; }
+
+    .nav-center { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .dots { display: flex; gap: 6px; }
+    .dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: rgba(255,255,255,.15); cursor: pointer;
+      transition: background .2s, transform .2s;
+    }
+    .dot.active { background: var(--blue); transform: scale(1.4); }
+    .slide-counter { font-size: .8rem; color: #484f58; }
+
+    /* ─── helpers ─────────────────────────────────────── */
+    .spacer { height: 12px; }
+    .row { display: flex; gap: 14px; align-items: stretch; flex-wrap: wrap; justify-content: center; }
+    .row .fbox { margin: 0; flex: 1; min-width: 180px; }
+
+    .note-box {
+      background: rgba(227,179,65,.08); border: 1px solid rgba(227,179,65,.3);
+      border-radius: 12px; padding: 12px 20px; max-width: 680px; width: 100%;
+      font-size: .92rem; color: var(--yellow); text-align: left; margin-top: 10px;
+    }
+    .note-box strong { color: var(--yellow); }
+  </style>
+</head>
+<body>
+<div id="app">
+
+  <!-- Progress bar -->
+  <div id="progress"><div id="progress-fill"></div></div>
+
+  <!-- Slide viewport -->
+  <div id="deck">
+
+    <!-- ══════════════════════════════════════════════════
+         SLIDE 1 — Title
+    ══════════════════════════════════════════════════ -->
+    <div class="slide s-title active">
+      <div class="badge badge-blue">Physics · Work &amp; Energy</div>
+      <h1>Work Done by Weight</h1>
+      <p class="lead">
+        How does the weight force <span class="b">W<sub>fg</sub> = mg</span> do positive
+        or negative work depending on the direction an object moves?
+      </p>
+      <div class="fbox fbox-blue" style="margin-top:28px;">
+        W<sub>fg</sub> = ± m · g · h
+      </div>
+      <p style="margin-top:20px; color:#484f58; font-size:.85rem;">
+        10 slides · use ← → keys or the buttons below to navigate
+      </p>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SLIDE 2 — Student's Question
+    ══════════════════════════════════════════════════ -->
+    <div class="slide s-question">
+      <div class="badge badge-yellow">A Student Asked…</div>
+      <h2>"Why isn't W<sub>fg</sub> on the formula sheet?"</h2>
+
+      <div class="steps">
+        <div class="step">
+          <span class="step-icon si-blue">a</span>
+          <div class="step-body">
+            <strong>Formula sheet section (a):</strong>
+            <span class="b">F<sub>g</sub> = m · g</span> — the weight force is already defined there.
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-icon si-purple">b</span>
+          <div class="step-body">
+            <strong>Formula sheet section (b):</strong>
+            <span class="pu">W = F · d</span> — the general work formula is there too.
+            Substitute <span class="pu">F = mg</span> and <span class="pu">d = h</span>
+            → you get <span class="b">W = mgh</span> instantly.
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-icon si-green">c</span>
+          <div class="step-body">
+            <strong>Formula sheet section (c):</strong>
+            <span class="g">PE<sub>g</sub> = m · g · h</span> is <em>literally</em>
+            W<sub>fg</sub> written as stored energy. Going UP stores +mgh of potential energy;
+            going DOWN releases it (−mgh). Same formula, different name.
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-icon si-red">!</span>
+          <div class="step-body">
+            <strong>Conclusion:</strong> W<sub>fg</sub> = mgh is not missing — it is embedded in
+            three places on the formula sheet. Physics avoids listing derivable results as
+            separate entries. <span class="r">Sign</span> tells you direction;
+            the next slides explain exactly when it's + or −.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SLIDE 3 — W = F·d Foundation
+    ══════════════════════════════════════════════════ -->
+    <div class="slide s-concept">
+      <div class="badge badge-blue">The Foundation</div>
+      <h2>Work = Force × Displacement</h2>
+      <p class="lead" style="margin-bottom:16px;">
+        This is the master formula. Everything else is a special case of it.
+      </p>
+
+      <div class="fbox fbox-blue">W = F · d · cos θ</div>
+
+      <div class="steps" style="max-width:680px;">
+        <div class="step">
+          <span class="step-icon si-blue">F</span>
+          <div class="step-body"><strong>F</strong> — the force acting on the object (Newtons)</div>
+        </div>
+        <div class="step">
+          <span class="step-icon si-blue">d</span>
+          <div class="step-body"><strong>d</strong> — the displacement of the object (metres)</div>
+        </div>
+        <div class="step">
+          <span class="step-icon si-blue">θ</span>
+          <div class="step-body">
+            <strong>θ</strong> — angle between force and displacement direction.<br>
+            For vertical motion with vertical force: <span class="b">θ = 0°</span> (same direction → <span class="g">cos 0° = +1</span>)
+            or <span class="b">θ = 180°</span> (opposite → <span class="r">cos 180° = −1</span>).
+          </div>
+        </div>
+      </div>
+
+      <div class="note-box">
+        <strong>Key insight:</strong> Only the component of force parallel to displacement does work.
+        Horizontal motion contributes <em>zero</em> work to the weight force — only the
+        vertical height <span class="ye">h</span> counts.
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SLIDE 4 — Derivation W = mgh
+    ══════════════════════════════════════════════════ -->
+    <div class="slide s-derive">
+      <div class="badge badge-purple">Derivation</div>
+      <h2>From W = F·d → W = mgh</h2>
+
+      <table class="derive-table">
+        <tr>
+          <td>1</td>
+          <td>Start with the work formula</td>
+          <td class="b">W = F · d</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Weight force equals mass × gravity</td>
+          <td class="pu">F = m · g</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Vertical displacement equals height</td>
+          <td class="pu">d = h</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Substitute F and d</td>
+          <td class="g" style="color:var(--green);">W = m · g · h</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Apply the sign based on direction</td>
+          <td>↑ <span class="g">+mgh</span> &nbsp;|&nbsp; ↓ <span class="r">−mgh</span></td>
+        </tr>
+      </table>
+
+      <div class="row" style="margin-top:18px; max-width:680px; width:100%;">
+        <div class="fbox fbox-green" style="flex:1; margin:0;">↑ W = +mgh</div>
+        <div class="fbox fbox-red"   style="flex:1; margin:0;">↓ W = −mgh</div>
+      </div>
+
+      <div class="note-box" style="margin-top:14px;">
+        <strong>g ≈ 10 m/s²</strong> (or 9.8 m/s² for higher precision) is a constant.
+        Only <span class="ye">m</span> and <span class="ye">h</span> change problem to problem.
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SLIDE 5 — Moving UP
+    ══════════════════════════════════════════════════ -->
+    <div class="slide s-up">
+      <div class="badge badge-green">Object Moving Up</div>
+      <h2>Work Done is <span class="g">Positive</span></h2>
+
+      <div style="display:flex; gap:32px; align-items:flex-start; flex-wrap:wrap; justify-content:center;">
+
+        <!-- diagram -->
+        <svg class="diag" width="160" height="220" viewBox="0 0 160 220">
+          <!-- ground line -->
+          <line x1="20" y1="200" x2="140" y2="200" stroke="#3fb950" stroke-width="1.5" stroke-dasharray="5,4" opacity=".5"/>
+          <!-- h brace -->
+          <line x1="130" y1="55"  x2="130" y2="200" stroke="#484f58" stroke-width="1" stroke-dasharray="3,3"/>
+          <text x="138" y="130" fill="#8b949e" font-size="13" font-family="monospace" font-style="italic">h</text>
+          <!-- displacement arrow (UP, green) -->
+          <line x1="80" y1="190" x2="80" y2="70"  stroke="#3fb950" stroke-width="3"/>
+          <polygon points="80,52 72,74 88,74" fill="#3fb950"/>
+          <text x="88" y="135" fill="#3fb950" font-size="11" font-family="monospace">d = h</text>
+          <!-- weight arrow (DOWN, red, dashed) -->
+          <line x1="46" y1="52"  x2="46" y2="190" stroke="#f85149" stroke-width="2" stroke-dasharray="5,4"/>
+          <polygon points="46,205 39,185 53,185" fill="#f85149" opacity=".7"/>
+          <text x="2"  y="125" fill="#f85149" font-size="10" font-family="monospace">F=mg↓</text>
+          <!-- object -->
+          <circle cx="80" cy="46" r="17" fill="#3fb950" opacity=".2" stroke="#3fb950" stroke-width="2"/>
+          <text x="72" y="51" fill="#3fb950" font-size="13" font-weight="700">m</text>
+        </svg>
+
+        <div style="text-align:left; max-width:400px;">
+          <div class="steps" style="max-width:400px;">
+            <div class="step">
+              <span class="step-icon si-green">↑</span>
+              <div class="step-body">
+                The object moves <strong>upward</strong> by height <span class="g">h</span>.
+              </div>
+            </div>
+            <div class="step">
+              <span class="step-icon si-green">F</span>
+              <div class="step-body">
+                The supporting/applied force acts <strong>in the same direction</strong>
+                as the displacement (both upward).
+              </div>
+            </div>
+            <div class="step">
+              <span class="step-icon si-green">+</span>
+              <div class="step-body">
+                cos 0° = +1, so work is <span class="g">positive</span>.
+                Energy is <strong>stored</strong> as gravitational potential energy.
+              </div>
+            </div>
+          </div>
+          <div class="fbox fbox-green" style="margin-top:14px; font-size:1.5rem;">
+            W = +F·d = +mgh
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SLIDE 6 — Moving DOWN
+    ══════════════════════════════════════════════════ -->
+    <div class="slide s-down">
+      <div class="badge badge-red">Object Moving Down</div>
+      <h2>Work Done is <span class="r">Negative</span></h2>
+
+      <div style="display:flex; gap:32px; align-items:flex-start; flex-wrap:wrap; justify-content:center;">
+
+        <!-- diagram -->
+        <svg class="diag" width="160" height="220" viewBox="0 0 160 220">
+          <!-- ground line -->
+          <line x1="20" y1="200" x2="140" y2="200" stroke="#f85149" stroke-width="1.5" stroke-dasharray="5,4" opacity=".5"/>
+          <!-- h brace -->
+          <line x1="130" y1="30"  x2="130" y2="200" stroke="#484f58" stroke-width="1" stroke-dasharray="3,3"/>
+          <text x="138" y="115" fill="#8b949e" font-size="13" font-family="monospace" font-style="italic">h</text>
+          <!-- displacement arrow (DOWN, red) -->
+          <line x1="80" y1="50" x2="80" y2="180"  stroke="#f85149" stroke-width="3"/>
+          <polygon points="80,198 72,176 88,176" fill="#f85149"/>
+          <text x="88" y="125" fill="#f85149" font-size="11" font-family="monospace">d = h</text>
+          <!-- opposing/retarding force arrow (UP, blue, dashed) -->
+          <line x1="46" y1="190"  x2="46" y2="55" stroke="#58a6ff" stroke-width="2" stroke-dasharray="5,4"/>
+          <polygon points="46,38 39,60 53,60" fill="#58a6ff" opacity=".7"/>
+          <text x="2"  y="125" fill="#58a6ff" font-size="10" font-family="monospace">F↑ opp.</text>
+          <!-- object -->
+          <circle cx="80" cy="28" r="17" fill="#f85149" opacity=".2" stroke="#f85149" stroke-width="2"/>
+          <text x="72" y="33" fill="#f85149" font-size="13" font-weight="700">m</text>
+        </svg>
+
+        <div style="text-align:left; max-width:400px;">
+          <div class="steps" style="max-width:400px;">
+            <div class="step">
+              <span class="step-icon si-red">↓</span>
+              <div class="step-body">
+                The object moves <strong>downward</strong> by height <span class="r">h</span>.
+              </div>
+            </div>
+            <div class="step">
+              <span class="step-icon si-red">F</span>
+              <div class="step-body">
+                The resisting force acts <strong>opposite</strong> to the displacement
+                (force up, motion down).
+              </div>
+            </div>
+            <div class="step">
+              <span class="step-icon si-red">−</span>
+              <div class="step-body">
+                cos 180° = −1, so work is <span class="r">negative</span>.
+                Energy is <strong>released</strong> — potential energy decreases.
+              </div>
+            </div>
+          </div>
+          <div class="fbox fbox-red" style="margin-top:14px; font-size:1.5rem;">
+            W = −F·d = −mgh
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SLIDE 7 — Solved Example 1 (Book lifted UP)
+    ══════════════════════════════════════════════════ -->
+    <div class="slide s-ex1">
+      <div class="badge badge-green">Solved Example 1</div>
+      <h2>Book Lifted from the Floor</h2>
+
+      <div class="ex-box">
+        <div class="given">
+          <strong style="color:#c9d1d9;">Given:</strong>
+          &nbsp; mass m = <span class="g">4 kg</span> &nbsp;|&nbsp;
+          height h = <span class="g">1.5 m</span> &nbsp;|&nbsp;
+          g = 10 m/s² &nbsp;|&nbsp;
+          <strong>direction: UP ↑</strong>
+        </div>
+
+        <div class="sol-step"><span class="num">①</span> <span>Write the appropriate formula for upward motion: <span class="g">W = +mgh</span></span></div>
+        <div class="sol-step"><span class="num">②</span> <span>Substitute values: W = 4 × 10 × 1.5</span></div>
+        <div class="sol-step"><span class="num">③</span> <span>W = 40 × 1.5 = <strong class="g">60 J</strong></span></div>
+      </div>
+
+      <div class="ans-banner ans-green">
+        ✓ &nbsp; W<sub>fg</sub> = +60 J &nbsp; (Positive — object moved UP)
+      </div>
+
+      <div class="note-box" style="margin-top:12px;">
+        <strong>Interpretation:</strong> 60 joules of energy were stored as gravitational potential energy
+        as the book was lifted 1.5 m above the floor.
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SLIDE 8 — Solved Example 2 (Ball falls DOWN)
+    ══════════════════════════════════════════════════ -->
+    <div class="slide s-ex2">
+      <div class="badge badge-red">Solved Example 2</div>
+      <h2>Ball Dropped from a Shelf</h2>
+
+      <div class="ex-box">
+        <div class="given">
+          <strong style="color:#c9d1d9;">Given:</strong>
+          &nbsp; mass m = <span class="r">3 kg</span> &nbsp;|&nbsp;
+          height h = <span class="r">2 m</span> &nbsp;|&nbsp;
+          g = 10 m/s² &nbsp;|&nbsp;
+          <strong>direction: DOWN ↓</strong>
+        </div>
+
+        <div class="sol-step"><span class="num">①</span> <span>Write the formula for downward motion: <span class="r">W = −mgh</span></span></div>
+        <div class="sol-step"><span class="num">②</span> <span>Substitute values: W = −(3 × 10 × 2)</span></div>
+        <div class="sol-step"><span class="num">③</span> <span>W = −(30 × 2) = <strong class="r">−60 J</strong></span></div>
+      </div>
+
+      <div class="ans-banner ans-red">
+        ✗ &nbsp; W<sub>fg</sub> = −60 J &nbsp; (Negative — object moved DOWN)
+      </div>
+
+      <div class="note-box" style="margin-top:12px;">
+        <strong>Interpretation:</strong> 60 joules of gravitational potential energy were
+        <em>released</em> as the ball fell 2 m to the floor. This energy converts to kinetic energy.
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SLIDE 9 — Solved Example 3 (Ramp — vertical h only)
+    ══════════════════════════════════════════════════ -->
+    <div class="slide s-ex3">
+      <div class="badge badge-blue">Solved Example 3</div>
+      <h2>Box Pushed Up a Ramp</h2>
+
+      <!-- ramp diagram -->
+      <svg width="280" height="100" viewBox="0 0 280 100" style="margin:0 auto 6px;">
+        <polygon points="20,90 260,90 260,20" fill="rgba(88,166,255,.08)" stroke="#58a6ff" stroke-width="1.5"/>
+        <!-- ramp length label -->
+        <text x="100" y="80" fill="#8b949e" font-size="12" font-family="monospace">d = 6 m (ramp)</text>
+        <!-- height arrow -->
+        <line x1="268" y1="20" x2="268" y2="90" stroke="#3fb950" stroke-width="2"/>
+        <polygon points="268,14 263,28 273,28" fill="#3fb950"/>
+        <polygon points="268,96 263,82 273,82" fill="#3fb950"/>
+        <text x="272" y="58" fill="#3fb950" font-size="13" font-family="monospace" font-style="italic">h</text>
+        <!-- box -->
+        <rect x="190" y="38" width="22" height="22" rx="4" fill="#58a6ff" opacity=".25" stroke="#58a6ff" stroke-width="1.5"/>
+        <text x="194" y="53" fill="#58a6ff" font-size="11" font-weight="700">m</text>
+        <!-- angle -->
+        <path d="M 240,90 A 20,20 0 0 0 240,72" fill="none" stroke="#8b949e" stroke-width="1.2"/>
+        <text x="220" y="82" fill="#8b949e" font-size="11">θ=30°</text>
+      </svg>
+
+      <div class="ex-box">
+        <div class="given">
+          <strong style="color:#c9d1d9;">Given:</strong>
+          &nbsp; m = <span class="b">8 kg</span> &nbsp;|&nbsp;
+          ramp length = 6 m &nbsp;|&nbsp;
+          angle θ = 30° &nbsp;|&nbsp;
+          g = 10 m/s²
+        </div>
+
+        <div class="sol-step"><span class="num">①</span> <span>Only vertical height counts. Find h: <span class="b">h = d · sin θ = 6 × sin 30° = 6 × 0.5 = 3 m</span></span></div>
+        <div class="sol-step"><span class="num">②</span> <span>Motion is upward, so use: <span class="g">W = +mgh</span></span></div>
+        <div class="sol-step"><span class="num">③</span> <span>W = 8 × 10 × 3 = <strong class="g">240 J</strong></span></div>
+      </div>
+
+      <div class="ans-banner ans-blue">
+        ✓ &nbsp; W<sub>fg</sub> = +240 J &nbsp; (h = 3 m, not ramp length 6 m)
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SLIDE 10 — Summary
+    ══════════════════════════════════════════════════ -->
+    <div class="slide s-summary">
+      <div class="badge badge-orange">Summary</div>
+      <h2>Work Done by Weight — At a Glance</h2>
+
+      <div class="two-col" style="max-width:780px;">
+        <div class="card card-green">
+          <h3 class="green">↑ Moving Up</h3>
+          <p>Force and displacement in the <strong>same</strong> direction.</p>
+          <p>Work is <strong style="color:var(--green);">positive</strong> — energy stored.</p>
+          <div class="cf">W = +mgh</div>
+          <p style="font-size:.82rem; margin-top:8px; color:#484f58;">
+            m = mass (kg) &nbsp;·&nbsp; g ≈ 10 m/s² &nbsp;·&nbsp; h = vertical height (m)
+          </p>
+        </div>
+        <div class="card card-red">
+          <h3 class="red">↓ Moving Down</h3>
+          <p>Force and displacement in <strong>opposite</strong> directions.</p>
+          <p>Work is <strong style="color:var(--red);">negative</strong> — energy released.</p>
+          <div class="cf">W = −mgh</div>
+          <p style="font-size:.82rem; margin-top:8px; color:#484f58;">
+            Always use the <strong>vertical</strong> height h, not slant length.
+          </p>
+        </div>
+      </div>
+
+      <div class="fbox fbox-blue" style="margin-top:20px; font-size:1.4rem;">
+        W<sub>fg</sub> = F · d = mg · h &nbsp;⟵&nbsp; already on the formula sheet as W = F·d
+      </div>
+
+      <div class="note-box" style="margin-top:12px;">
+        <strong>Remember for the test:</strong>
+        The formula is <strong>not missing</strong> — apply W = F·d with F = mg and d = h.
+        Always ask: which direction is the motion? <span class="g">Up → +mgh</span>,
+        <span class="r">Down → −mgh</span>.
+      </div>
+    </div>
+
+  </div><!-- #deck -->
+
+  <!-- Navigation bar -->
+  <nav id="nav">
+    <button class="nav-btn" id="prevBtn" disabled>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Previous
+    </button>
+
+    <div class="nav-center">
+      <div class="dots" id="dots"></div>
+      <span class="slide-counter" id="counter">1 / 10</span>
+    </div>
+
+    <button class="nav-btn" id="nextBtn">
+      Next
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </nav>
+
+</div><!-- #app -->
+
+<script>
+  const slides   = Array.from(document.querySelectorAll('.slide'));
+  const prevBtn  = document.getElementById('prevBtn');
+  const nextBtn  = document.getElementById('nextBtn');
+  const counter  = document.getElementById('counter');
+  const dotsEl   = document.getElementById('dots');
+  const fill     = document.getElementById('progress-fill');
+  const total    = slides.length;
+  let current    = 0;
+
+  /* build dots */
+  slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', () => goTo(i));
+    dotsEl.appendChild(d);
+  });
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= total || idx === current) return;
+
+    /* exit current */
+    slides[current].classList.remove('active');
+    slides[current].classList.add('out-left');
+    const prev = current;
+    setTimeout(() => slides[prev].classList.remove('out-left'), 400);
+
+    current = idx;
+
+    /* enter new */
+    slides[current].classList.add('active');
+    slides[current].scrollTop = 0;
+
+    /* update UI */
+    dotsEl.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+    counter.textContent = `${current + 1} / ${total}`;
+    fill.style.width    = `${((current + 1) / total) * 100}%`;
+    prevBtn.disabled    = current === 0;
+    nextBtn.disabled    = current === total - 1;
+  }
+
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => goTo(current + 1));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(current - 1);
+  });
+
+  /* init progress */
+  fill.style.width = `${(1 / total) * 100}%`;
+</script>
+</body>
+</html>
