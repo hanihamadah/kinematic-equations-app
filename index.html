@@ -21,12 +21,8 @@
       --text:   #c9d1d9;
     }
 
-    html {
-      height: -webkit-fill-available;
-    }
     body {
-      height: 100vh;
-      height: 100dvh;
+      margin: 0;
       background: var(--bg);
       color: var(--text);
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -35,17 +31,16 @@
 
     /* ─── layout ─────────────────────────────────────── */
     #app {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      height: 100dvh;
+      display: block;
     }
 
     /* progress bar */
     #progress {
+      position: fixed;
+      top: 0; left: 0; right: 0;
       height: 3px;
       background: rgba(255,255,255,0.06);
-      flex-shrink: 0;
+      z-index: 300;
     }
     #progress-fill {
       height: 100%;
@@ -55,8 +50,10 @@
 
     /* slide viewport */
     #deck {
-      flex: 1;
-      position: relative;
+      position: fixed;
+      top: 3px;
+      left: 0; right: 0;
+      bottom: 72px;
       overflow: hidden;
     }
 
@@ -203,11 +200,14 @@
 
     /* ─── navigation ──────────────────────────────────── */
     #nav {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
       display: flex; align-items: center; justify-content: space-between;
       padding: 12px 32px;
-      background: rgba(255,255,255,.02);
+      padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+      background: #0d1117;
       border-top: 1px solid var(--border);
-      flex-shrink: 0;
+      z-index: 200;
     }
     .nav-btn {
       display: flex; align-items: center; gap: 8px;
