@@ -20,6 +20,26 @@ Then set the token and deploy:
 CLOUDFLARE_API_TOKEN=<token> wrangler pages deploy /home/user/kinematic-equations-app --project-name work-done-by-weight
 ```
 
+## Google Stitch (AI UI design) — Setup on Mac
+Stitch is Google's free AI UI design tool. It can connect to Claude Code via an MCP server,
+so you describe a UI in plain English and the generated design + code flows into this repo.
+
+**This only works when running Claude Code locally on the Mac** (it needs `npx`, which the
+cloud session can't run). Setup steps for the Mac:
+
+1. Get an API key: stitch.withgoogle.com/settings → "API Keys" → Create API Key
+2. Add to the MCP client config (`~/.claude/settings.json` or `.mcp.json`):
+   ```json
+   {
+     "mcpServers": {
+       "stitch": { "command": "npx", "args": ["@_davideast/stitch-mcp", "proxy"] }
+     }
+   }
+   ```
+3. Set the key: `export STITCH_API_KEY=<key>` (or use the OAuth path for long-term use)
+
+Then: describe a slide layout → Stitch designs it → Claude turns it into `index.html` to deploy to Cloudflare.
+
 ## User Preferences
 - Prefers short, direct answers — no prolonged back-and-forth
 - Do NOT give links until they are verified to work

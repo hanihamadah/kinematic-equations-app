@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ \"$(uname)\" = \"Darwin\" ] && printf '%s' \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"SessionStart\\\",\\\"additionalContext\\\":\\\"Reminder for the user: this repo can connect Claude Code to Google Stitch (AI UI design) via MCP. Setup steps are in CLAUDE.md under Google Stitch. Offer to help set it up.\\\"},\\\"systemMessage\\\":\\\"Reminder: you can connect Claude Code to Google Stitch here. Setup steps are in CLAUDE.md (Google Stitch section).\\\"}\" || true"
+          }
+        ]
+      }
+    ]
+  }
+}
