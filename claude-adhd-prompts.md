@@ -16,3 +16,6 @@ Source: TikTok (@your.aimentor) — "Claude's ADHD Executive Function Mode"
 
 ## 5. The Interest-Based Filter
 > "I have a boring administrative task: [Task]. Help me gamify this by connecting it to my current hyper-fixation: [Interest]. Create a 'Quest' structure where finishing the task unlocks a reward."
+
+## 7. The Executive Function Externalizer
+> "My brain is full of 'Open Loops.' I will dump everything I'm worried about below. Categorize these into 'Now,' 'Later,' and 'Trash,' and then write a 1-sentence 'Actionable Next Step' for only the 'Now' items."
