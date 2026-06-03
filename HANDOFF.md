@@ -3,7 +3,10 @@
 ## Who / Context
 - Hani Hamadeh, physics teacher (grade 12).
 - Final exam day. Exam **8:30–10:30 am**, ~**114 students/papers** to correct.
-- Must stay at school until **5:00 pm** (policy). Grading runway: ~10:45 → 17:00.
+- Must stay at school until **5:00 pm** (policy). Grading runway: ~10:30 → 17:00.
+- **Department meeting 1:40–2:40 pm (~1 hr)** splits the day: morning push ~10:30→1:40,
+  meeting, afternoon push 2:40→5:00. Aim to finish the current question before the
+  meeting (don't break mid-question); if not, sticky-note "stopped at paper #X on Q__".
 - Worried that correcting takes a long time. Has ADHD-style executive-function challenges.
 - Health notes (today): old molar toothache (Panadol bought; dentist = summer, not today).
   Skipped levothyroxine this morning → take it mid-morning **on an empty stomach**
