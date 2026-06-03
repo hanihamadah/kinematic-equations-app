@@ -1,5 +1,8 @@
 # CLAUDE.md — kinematic-equations-app
 
+## Active Handoff
+@HANDOFF.md
+
 ## What This Repo Is
 Physics slide decks for a teacher (Hani Hamadeh). Each `index.html` is a self-contained slide presentation for students.
 
