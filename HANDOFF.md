@@ -37,9 +37,9 @@ Double-marked MCQ/TF = 0 for that question (even if one is right). **~114 papers
 - **Block** = 25-min focus timer + 5-min break. One exercise spans several blocks — normal.
 
 ### STATUS (as of end of last session)
+- **Part I (MCQ) + Part II (True/False): DONE** — including SOD students. ✅
 - **Part III problem-solving: DONE through Exercise 9**, across all class sections.
-- **Remaining: Exercises 10, 11, 12.** Resume there.
-- (Part I MCQ + Part II T/F objective marking — confirm with Hani what's left.)
+- **Remaining: Exercises 10, 11, 12.** Resume there. (That's the ONLY marking left.)
 
 ### Tools already built (don't rebuild unless he asks)
 - **`i-sod-objective.html`** — answer strip for MCQ + True/False (Parts I & II).
@@ -109,6 +109,30 @@ After marking, grades must be entered onto **paper name lists** and into **iCamp
 
 ---
 
+## STREAM 4 — DATA ANALYSIS EXCEL (after iCampus)
+A separate school requirement, done **AFTER the iCampus milestone**.
+
+### What it is
+- A **specific Excel sheet** where each student's exam grade is broken down and entered
+  **next to their name** — not just the total.
+- The breakdown follows the **final-exam cover page**, which split the grade into
+  **3–4 categories, each mapping to a standard (e.g., "MA…")**, plus a **bonus category**.
+- So per student: enter the sub-score for each standard-category + the bonus, not one lump total.
+
+### How to help (Data Analysis)
+- Do it **only after** name lists + iCampus are done (it's the last step).
+- Same batch-by-section + two-pass-check rhythm to avoid transcription errors.
+- The per-category points must come from how each exam question maps to each standard —
+  **ask Hani for the cover-page category breakdown** (which questions feed which standard)
+  and capture it here so it's not re-derived each time.
+- (TO CONFIRM with Hani: exact category names/standards, the Excel template layout,
+  and the question→category mapping.)
+
+### Glossary
+- **SOD** = Students of Determination (special-needs accommodations). Their Parts I & II are done.
+
+---
+
 ## PEOPLE / SENSITIVITIES
 - **Rasha** = Head of Department (HoD). Hani sends her end-of-day grading updates.
   Keep them **professional, factual, dignified** (e.g., *"finished Part III through Exercise 9
@@ -117,8 +141,13 @@ After marking, grades must be entered onto **paper name lists** and into **iCamp
   any message to her; let his work speak. If he's hurt by it, validate (body-doubling is a
   legitimate, evidence-based ADHD strategy — not something to be ashamed of) and redirect.
 
+## THE FINISH-LINE ORDER (what's left, in sequence)
+1. **Grade Part III Exercises 10–12** (only marking left; Parts I & II + Ex 1–9 done).
+2. **Record grades** → paper name lists + **iCampus**.
+3. **Data Analysis Excel** → per-student breakdown by standard-category + bonus.
+
 ## HOW TO RESUME (any new chat)
 1. Greet Hani warmly; check meds / water / food / neck.
-2. Ask **which stream** he wants: grading, Abir, or recording grades.
+2. Ask **which stream** he wants: grading, Abir, recording grades, or data analysis.
 3. For grading: resume at **Exercise 10**; run the 25-min check-in role.
 4. Don't rebuild grading files — they exist and are verified.
