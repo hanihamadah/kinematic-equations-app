@@ -1,66 +1,124 @@
-# HANDOFF — Exam Grading Day (Hani)
+# HANDOFF — Hani (works in any fresh chat)
 
-## Who / Context
-- Hani Hamadeh, physics teacher (grade 12). Topic: Work, Energy & Momentum.
-- Final exam day (2026-06-03). Exam was **8:30–10:30 am**, ~**114 papers** to correct.
-- Must stay at school until **5:00 pm** (policy). Grading runway: ~10:30 → 17:00.
-- **Department meeting 1:40–2:40 pm (~1 hr)** splits the day: morning push ~10:30→1:40,
-  meeting, afternoon push 2:40→5:00. Aim to finish the current question before the
-  meeting (don't break mid-question); if not, sticky-note "stopped at paper #X on Q__".
-- Worried that correcting takes a long time. Has ADHD-style executive-function challenges.
-- Health notes (today): old molar toothache (Panadol taken 6:41am; dentist = summer).
-  Levothyroxine taken **10:14am** (empty stomach). On Wegovy 1mg → pears 🍐 + Motelium
-  for nausea. Left proctoring 10:00 (profuse sweating, then settled). Plenty of water.
+> Purpose: open ANY new chat, point it here, and it can pick up without re-explaining.
+> Three active streams: **1) Grading · 2) Abir's work/career crisis · 3) Recording grades.**
+> Last updated: **Friday morning** (Hani woke 3:00 AM).
 
-## EXAM STRUCTURE & GRADING TOOLS (already built — in this repo)
-Exam = 100 pts: Part I MCQ (25) + Part II True/False (15) + Part III Problem Solving (60),
-plus a 3-pt bonus. Instructions: g = 10 m/s², weight = Fg, right/up/east positive.
-Double-marked MCQ/TF answers = 0 for that question (even if one is right).
+## WHO / HOW TO HELP HIM
+- **Hani Hamadeh**, physics teacher (Grade 12). Topic: Work, Energy & Momentum.
+- Has **ADHD-style executive-function challenges**. What helps:
+  - **Short, direct answers.** No long back-and-forth, no walls of text when he's tired.
+  - **Body-double / accountability role**: when he says **"starting"**, check in roughly
+    every **25 min** — ask progress, anchor him, encourage, push to the next block.
+  - **One tiny next step** at a time. Shrink any task to "just the top paper / one section."
+  - **Now / Later / Trash dump** when he spirals: sort worries into what he can do now,
+    what's real-but-later, and what's just a tired-brain lie to discard.
+  - **Gamify**: every chunk done = a level cleared + small reward (coffee, music, walk).
+  - **Impulse guard**: if he says he wants to text someone he shouldn't (e.g., during a
+    boredom/anger spike) — tell him to put the phone across the room, move his body, wait.
+- **Health notes**: on **Wegovy 1mg** (nausea → pears 🍐 + Motelium). **Levothyroxine** on
+  empty stomach in the morning. Old molar toothache (Panadol; dentist in summer). Reminds
+  him to drink water, stretch the **neck** (gets sore hunched over papers — raise papers/screen).
+- **Tone**: warm, steady, in his corner. He carries a lot at once — validate, then redirect
+  to the one thing he can actually finish today.
 
-- **`grading-strip.html` / `grading-strip.pdf`** — answer key for the 40 objective pts,
-  laid out per exam page, big font (blue = MCQ letter, green = True, red = False).
-  Page map: MCQ p1:Q1–6, p2:Q7–13, p3:Q14–20, p4:Q21–25 · TF p5:Q1–14, p6:Q15.
-- **`part3-rubric.html` / `part3-rubric.pdf`** — Part III worked solutions with
-  **method+answer point split** (green badges show where each mark goes).
-- **`part3-questions.md`** — all Part III problem statements (Q1–Q10 + bonus).
-- **`part3-answer-key.md`** — teacher's official worked solutions (verified correct).
-- **`make_pdf.py`** rebuilds the strip PDF; **`build_part3.py`** rebuilds Part III
-  HTML+PDF. (reportlab needed: `pip install reportlab`.)
-- Grading approach chosen: **method + answer split** (partial credit for right setup).
-- NOTE: files live on branch `claude/save-these-Tz2Ke` (not deployed to Cloudflare).
+---
 
-## THE GRADING METHOD (most important)
-**Grade question-by-question, NOT paper-by-paper.**
-- Grade **Question/Exercise 1 across all 114 papers**, then Q2 across all 114, etc.
-- Keeps one rubric loaded in the head → faster, more consistent, less context-switching.
-- Do the **easy/short questions first** for momentum.
+## STREAM 1 — GRADING
+**Exam** = 100 pts: Part I MCQ (25) + Part II True/False (15) + Part III Problem Solving (60)
++ 3-pt bonus. Rules: g = 10 m/s², weight = Fg, right/up/east positive.
+Double-marked MCQ/TF = 0 for that question (even if one is right). **~114 papers.**
 
-### Blocks vs Exercises (he asked about this)
-- **Exercise = grading unit** (one question across all 114 papers).
-- **Block = 25-min focus timer**, then 5-min break. One exercise usually spans
-  several blocks — that's expected. A block does NOT mean "finish an exercise."
+### Method (most important)
+- **Grade question-by-question, NOT paper-by-paper.** One exercise across all papers, then
+  the next. Keeps one rubric in his head → faster, more consistent.
+- **Class sections**: 12B, 12C, 12D, 12F (he grades each exercise across all sections).
+- **Partial credit = method + answer split** (points for right setup even if final answer wrong).
+- **Block** = 25-min focus timer + 5-min break. One exercise spans several blocks — normal.
 
-## CHECK-IN PARTNER ROLE (what he wants from Claude)
-Act as his **body double / accountability partner**. When he says **"starting Q1"**
-(or "starting block 1"), check in roughly every **25 minutes**: ask how many papers
-done, keep him anchored, encourage, help him push to the next block. Track pace —
-once he reports how long Q1×114 took, reassure him on finishing before 5pm.
+### STATUS (as of end of last session)
+- **Part III problem-solving: DONE through Exercise 9**, across all class sections.
+- **Remaining: Exercises 10, 11, 12.** Resume there.
+- (Part I MCQ + Part II T/F objective marking — confirm with Hani what's left.)
 
-## Plan mapped to his 7 saved ADHD prompts (see claude-adhd-prompts.md)
-1. **Task Paralysis Shatterer** — first tiny step: stack papers, open answer key,
-   grade only Q1 on the top paper.
-2. **Dopamine Menu** — Appetizer (5-min stretch/water), Entrée (25-min grading block),
-   Side (10-min light reset).
-3. **Body Doubling** — Claude checks in every ~25 min (the role above).
-4. **Context-Switching Guide** — between different question types, 3-min reset:
-   stand, shake out, re-read the next question's rubric once.
-5. **Interest-Based Filter** — gamify: every 20 papers = 1 level cleared + small reward.
-6. (missing from source carousel)
-7. **Executive Function Externalizer** — Now / Later / Trash dump for any worry spiral.
+### Tools already built (don't rebuild unless he asks)
+- **`i-sod-objective.html`** — answer strip for MCQ + True/False (Parts I & II).
+- **`i-sod-problem-solving.html`** — Part III problem-solving answer strip.
+- **`grading-strip.html/.pdf`** — objective answer key, per exam page, big font
+  (blue = MCQ letter, green = True, red = False). Map: MCQ p1:Q1–6, p2:Q7–13, p3:Q14–20,
+  p4:Q21–25 · TF p5:Q1–14, p6:Q15.
+- **`part3-rubric.html/.pdf`** — Part III worked solutions w/ method+answer point badges.
+- **`part3-questions.md`** / **`part3-answer-key.md`** — statements + verified solutions.
+- Rebuild scripts: `make_pdf.py` (strip), `build_part3.py` (Part III). Needs `pip install reportlab`.
+- To re-send the HTML strips to him: deliver the two `i-sod-*.html` files; he downloads and
+  **double-clicks in Finder → opens in Safari** (self-contained, no internet, no deploy).
 
-## How to resume (NEW CHAT)
-All grading tools are DONE and committed. In a fresh chat:
-1. Greet Hani warmly, confirm he's settled and meds are handled.
-2. Remind him the answer key + rubric are ready (`grading-strip.*`, `part3-rubric.*`).
-3. Ask **"Ready to start Q1?"** and begin the check-in partner role (every ~25 min).
-4. Don't rebuild the grading files unless he asks — they already exist and are verified.
+### How to help (Grading)
+1. Greet warmly, ask if meds/water/food handled.
+2. Confirm where he stopped (should be **Exercise 10**).
+3. Set a tiny start: "just the top paper of Exercise 10." Then run the 25-min check-in role.
+4. Track pace; reassure on runway. Don't rebuild files — they exist and are verified.
+
+---
+
+## STREAM 2 — ABIR'S WORK / CAREER CRISIS
+Hani's wife **Abir**. School is trying to cut her housing allowance.
+
+### The situation
+- **The cut**: drop housing allowance (~AED 4,400/mo), disguised as a "raise." Real loss
+  ~AED 3,000/mo (~**36k/year**).
+- **The law (UAE)**: they **can't change her pay without her written consent. DON'T SIGN.**
+- **Her ace**: the **20 Aug 2025 HR email** confirms housing for her whole tenure.
+  → **Save it OFF the work laptop NOW**: forward to a personal email + screenshot. (People
+  lose laptop access fast when this escalates.)
+- **The ultimatum**: "take it or leave it" = pressure, not power. Refusing is **not** grounds to fire her.
+- **In the meeting**: don't sign, don't say "yes," **never** say "I'll leave / I'll resign."
+  Say: **"I can't decide today — put it in writing."**
+- **After**: send a **same-day recap email** so the verbal ultimatum is on record.
+  Template: *"To confirm today's meeting: I was asked to accept a change to my housing
+  allowance. I said I need any proposed change in writing and could not decide today."*
+
+### Recommended next step
+- A **one-time paid consult with a UAE labour lawyer** before any meeting — rules differ for
+  **DIFC/ADGM free zones vs. mainland MOHRE**, which changes the playbook. Worth it at ~36k/yr stakes.
+
+### How to help (Abir)
+- Reassure Hani: **worrying ≠ helping.** The plan above IS the help — the rest is waiting for
+  the meeting (the moment to act), not churning now.
+- If he asks for messages/emails, keep them **calm, factual, on-record.** Help draft, then stop.
+
+---
+
+## STREAM 3 — RECORDING GRADES (name lists / iCampus)
+After marking, grades must be entered onto **paper name lists** and into **iCampus**
+(the school's grades platform).
+
+### Status / what's known
+- **Not started yet** (or confirm with Hani). This is the post-marking data-entry phase.
+- **Risk**: transcription errors + it's tedious → high ADHD-friction. Build in checks.
+
+### How to help (Recording)
+- **Do it in batches by class section** (12B, then 12C, etc.) — same as grading, low context-switch.
+- **Two-pass entry**: enter all scores, then a second pass reading the paper total against the
+  entered total to catch typos. Or read totals aloud while entering.
+- **Reconcile counts**: number of entries should equal number of papers per section.
+- Watch for: double-marked MCQ/TF = 0 rule applied; bonus (3 pts) added correctly; max 100.
+- Same 25-min block + check-in rhythm. Gamify per section.
+- (Ask Hani for iCampus specifics — entry screen layout, whether totals or per-question, any
+  rounding/weighting rules — and capture them here next time.)
+
+---
+
+## PEOPLE / SENSITIVITIES
+- **Rasha** = Head of Department (HoD). Hani sends her end-of-day grading updates.
+  Keep them **professional, factual, dignified** (e.g., *"finished Part III through Exercise 9
+  across all papers today; Exercises 10–12 tomorrow"*). She made a dismissive "imaginary
+  friends" comment about Hani using an AI body-double — it stung. **Do not reference it** in
+  any message to her; let his work speak. If he's hurt by it, validate (body-doubling is a
+  legitimate, evidence-based ADHD strategy — not something to be ashamed of) and redirect.
+
+## HOW TO RESUME (any new chat)
+1. Greet Hani warmly; check meds / water / food / neck.
+2. Ask **which stream** he wants: grading, Abir, or recording grades.
+3. For grading: resume at **Exercise 10**; run the 25-min check-in role.
+4. Don't rebuild grading files — they exist and are verified.
