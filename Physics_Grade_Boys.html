@@ -7,7 +7,7 @@
 <style>
   :root{--boys:#1f6feb;--boys2:#0b3d91;--girls:#d6336c;--girls2:#8a1f47;--ink:#0f1b2d;--muted:#5b6b80;--line:#e3e8ef;--bg:#f4f6fb;--up:#16a34a;--down:#dc2626;}
   *{box-sizing:border-box}
-  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;text-size-adjust:100%}
   header{color:#fff;padding:26px 30px 22px;box-shadow:0 6px 22px rgba(11,61,145,.22)}
   body.Boys header{background:linear-gradient(135deg,#0b3d91,#1f6feb 55%,#3b82f6)}
   body.Girls header{background:linear-gradient(135deg,#8a1f47,#d6336c 55%,#ef5b8c)}
@@ -54,7 +54,41 @@
   .hint{font-size:13px;color:var(--muted);margin-left:auto}
   .save-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--up);margin-right:6px;vertical-align:middle}
   footer{max-width:1060px;margin:10px auto 40px;padding:0 22px;color:var(--muted);font-size:12.5px;text-align:center}
-  @media (max-width:720px){.cards{grid-template-columns:repeat(2,1fr)}}
+  /* ---------- Mobile / responsive ---------- */
+  .tablewrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:16px}
+  @media (max-width:760px){ .cards{grid-template-columns:repeat(2,1fr);gap:10px} }
+  @media (max-width:560px){
+    header{padding:16px 14px 14px}
+    header h1{font-size:17px;line-height:1.25}
+    header .sub{font-size:11.5px;margin-top:4px}
+    .wrap{padding:12px 9px}
+    .tabs{gap:7px;margin:2px 0 12px}
+    .grouplabel{width:100%;margin-bottom:2px}
+    .tab{padding:10px 15px;font-size:15px}
+    .cards{gap:9px;margin-bottom:13px}
+    .card{padding:11px 11px;border-radius:13px}
+    .card .k{font-size:10.5px;letter-spacing:.3px}
+    .card .v{font-size:21px}
+    .card .v small{font-size:11px}
+    table{border-radius:13px}
+    thead th{font-size:10.5px;padding:9px 5px;letter-spacing:.2px}
+    tbody td{font-size:13px;padding:9px 5px}
+    td.idx{width:22px}
+    td.name{line-height:1.2}
+    .sem2{font-size:13px}
+    input.fe{width:50px;padding:9px 3px;font-size:16px;border-radius:9px} /* 16px stops iOS zoom-on-tap */
+    .chg{font-size:12.5px}
+    .toolbar{gap:8px;margin:16px 0 6px}
+    .btn{flex:1 1 100%;text-align:center;padding:14px 14px;font-size:15px}
+    .btn.reset{order:5}
+    .hint{margin-left:0;flex-basis:100%;text-align:center;margin-top:2px}
+    footer{padding:0 14px;margin:8px auto 30px}
+  }
+  @media (max-width:380px){
+    thead th{font-size:9.5px;padding:8px 4px}
+    tbody td{padding:8px 4px}
+    input.fe{width:44px}
+  }
   @media print{body{background:#fff} header{box-shadow:none} .tabs,.toolbar,.hint{display:none} .card,table{box-shadow:none} thead th{background:#0f2747 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact} .printtitle{display:block !important}}
   .printtitle{display:none;font-size:18px;font-weight:800;margin:0 0 12px}
 </style>
@@ -68,10 +102,10 @@
   <div class="tabs" id="tabs"></div>
   <div class="printtitle" id="printtitle"></div>
   <div class="cards" id="cards"></div>
-  <table>
+  <div class="tablewrap"><table>
     <thead><tr><th class="num">#</th><th>Student Name</th><th class="num">Semester 2 Avg</th><th class="num">Final Exam</th><th class="num">Change</th></tr></thead>
     <tbody id="rows"></tbody>
-  </table>
+  </table></div>
   <div class="toolbar">
     <button class="btn main" onclick="exportWorkbook()">💾 Save Boys Workbook (Excel)</button>
     <button class="btn pdf" onclick="window.print()">🖨️ Save as PDF</button>
