@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 12 Physics — Boys — Final Exam Recording</title>
+<style>
+  :root{
+    --boys:#1f6feb; --boys2:#0b3d91; --girls:#d6336c; --girls2:#8a1f47;
+    --ink:#0f1b2d; --muted:#5b6b80; --line:#e3e8ef; --bg:#f4f6fb;
+    --up:#16a34a; --down:#dc2626;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+  header{color:#fff;padding:26px 30px 22px;box-shadow:0 6px 22px rgba(11,61,145,.22)}
+  body.Boys header{background:linear-gradient(135deg,#0b3d91,#1f6feb 55%,#3b82f6)}
+  body.Girls header{background:linear-gradient(135deg,#8a1f47,#d6336c 55%,#ef5b8c)}
+  header h1{margin:0;font-size:23px;letter-spacing:.2px;font-weight:800}
+  header .sub{opacity:.92;margin-top:6px;font-size:14px;font-weight:500}
+  .wrap{max-width:1060px;margin:0 auto;padding:22px}
+  .tabs{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 18px;align-items:center}
+  .grouplabel{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-right:2px}
+  .tab{border:none;cursor:pointer;padding:10px 16px;border-radius:999px;font-size:15px;font-weight:700;
+       background:#fff;color:var(--ink);box-shadow:0 2px 6px rgba(15,27,45,.08);transition:.15s;border:2px solid transparent}
+  .tab:hover{transform:translateY(-1px)}
+  body.Boys .tab.active{background:var(--boys);color:#fff;border-color:var(--boys2)}
+  body.Girls .tab.active{background:var(--girls);color:#fff;border-color:var(--girls2)}
+  .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+  .card{background:#fff;border-radius:16px;padding:16px 18px;box-shadow:0 4px 16px rgba(15,27,45,.06);border:1px solid var(--line)}
+  .card .k{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+  .card .v{font-size:30px;font-weight:800;margin-top:6px;line-height:1}
+  .card .v small{font-size:14px;color:var(--muted);font-weight:600}
+  table{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border-radius:16px;overflow:hidden;
+        box-shadow:0 6px 22px rgba(15,27,45,.07);border:1px solid var(--line)}
+  thead th{background:#0f2747;color:#fff;font-size:13px;text-transform:uppercase;letter-spacing:.6px;
+           padding:13px 14px;text-align:left;font-weight:700}
+  thead th.num{text-align:center}
+  tbody td{padding:11px 14px;border-top:1px solid var(--line);font-size:15px}
+  tbody tr:nth-child(even){background:#fafbfe}
+  tbody tr:hover{background:#eef4ff}
+  td.idx{color:var(--muted);text-align:center;width:42px;font-variant-numeric:tabular-nums}
+  td.name{font-weight:600}
+  td.num{text-align:center;font-variant-numeric:tabular-nums}
+  .sem2{font-weight:700;color:#0b3d91}
+  body.Girls .sem2{color:#8a1f47}
+  input.fe{width:78px;padding:8px;border:2px solid #cfd8e6;border-radius:10px;text-align:center;font-size:15px;
+           font-weight:700;outline:none;transition:.15s;font-family:inherit}
+  body.Boys input.fe:focus{border-color:var(--boys);box-shadow:0 0 0 3px rgba(31,111,235,.15)}
+  body.Girls input.fe:focus{border-color:var(--girls);box-shadow:0 0 0 3px rgba(214,51,108,.15)}
+  input.fe.filled{background:#f0fff4;border-color:#bbf7d0}
+  .chg{font-weight:800;font-variant-numeric:tabular-nums}
+  .chg.up{color:var(--up)} .chg.down{color:var(--down)} .chg.same{color:var(--muted)}
+  .abs{display:inline-block;background:#fde2e2;color:#b91c1c;font-weight:800;font-size:12px;padding:4px 10px;border-radius:999px;letter-spacing:.5px}
+  .blankcell{color:#c0c8d4}
+  .toolbar{display:flex;flex-wrap:wrap;gap:12px;margin:20px 0 8px;align-items:center}
+  .btn{cursor:pointer;border:none;padding:12px 18px;border-radius:12px;font-size:15px;font-weight:800;color:#fff;
+       box-shadow:0 4px 14px rgba(15,27,45,.16);transition:.15s}
+  .btn:hover{transform:translateY(-1px)}
+  body.Boys .btn.main{background:linear-gradient(135deg,var(--boys2),var(--boys))}
+  body.Girls .btn.main{background:linear-gradient(135deg,var(--girls2),var(--girls))}
+  .btn.pdf{background:linear-gradient(135deg,#334155,#0f172a)}
+  .btn.reset{background:#fff;color:#b91c1c;border:2px solid #fecaca;box-shadow:none}
+  .hint{font-size:13px;color:var(--muted);margin-left:auto}
+  .save-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--up);margin-right:6px;vertical-align:middle}
+  footer{max-width:1060px;margin:10px auto 40px;padding:0 22px;color:var(--muted);font-size:12.5px;text-align:center}
+  @media (max-width:720px){.cards{grid-template-columns:repeat(2,1fr)}}
+  @media print{
+    body{background:#fff} header{box-shadow:none} .tabs,.toolbar,.hint{display:none}
+    .card,table{box-shadow:none} thead th{background:#0f2747 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .printtitle{display:block !important}
+  }
+  .printtitle{display:none;font-size:18px;font-weight:800;margin:0 0 12px}
+</style>
+</head>
+<body class="Boys">
+<header>
+  <h1>📊 Grade 12 Physics (Boys) — Final Exam Recording</h1>
+  <div class="sub">Hani Hamadeh · Work, Energy &amp; Momentum · Semester 2 → Final Exam tracker</div>
+</header>
+<div class="wrap">
+  <div class="tabs" id="tabs"></div>
+  <div class="printtitle" id="printtitle"></div>
+  <div class="cards" id="cards"></div>
+  <table>
+    <thead><tr>
+      <th class="num">#</th><th>Student Name</th>
+      <th class="num">Semester 2 Avg</th><th class="num">Final Exam</th><th class="num">Change</th>
+    </tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <div class="toolbar">
+    <button class="btn main" onclick="exportWorkbook()">💾 Save Boys Workbook (Excel)</button>
+    <button class="btn pdf" onclick="window.print()">🖨️ Save as PDF</button>
+    <button class="btn reset" onclick="resetAll()">Clear marks</button>
+    <span class="hint"><span class="save-dot"></span>Your typing auto-saves on this device</span>
+  </div>
+</div>
+<footer>Self-contained — works offline. Final Exam is the only column you fill.<br>Change = Final Exam − Semester 2 Average.</footer>
+<script>
+const DATA = {"12B": {"group": "Boys", "students": [{"name": "Abdulrahman Aljassmi", "sem2": 80.0, "absent": false}, {"name": "Ahmed AlBalushi", "sem2": 99.0, "absent": false}, {"name": "Amir Zahreddine", "sem2": 99.0, "absent": false}, {"name": "Arash Zakizadeh", "sem2": 84.0, "absent": false}, {"name": "Essa Ahli", "sem2": 81.0, "absent": false}, {"name": "Fahed Sahyouni", "sem2": 94.0, "absent": false}, {"name": "Hamad AlZahed", "sem2": 94.0, "absent": false}, {"name": "Hamad Ahli", "sem2": 95.0, "absent": false}, {"name": "Hamdan Nasabpour", "sem2": 80.0, "absent": false}, {"name": "Khalid Abushahab", "sem2": 93.0, "absent": false}, {"name": "Mahdi Romani", "sem2": 93.0, "absent": false}, {"name": "Majed Qaderi", "sem2": 80.0, "absent": false}, {"name": "Mohammad AlMadani", "sem2": 92.0, "absent": false}, {"name": "Mohammad AlSharif", "sem2": 91.0, "absent": false}, {"name": "Mohammad Alzarooni", "sem2": 93.0, "absent": false}, {"name": "Mohammad Warsho", "sem2": 90.0, "absent": false}, {"name": "Mohammed AlBalushi", "sem2": 99.0, "absent": false}, {"name": "Saad AlHashmi", "sem2": 90.0, "absent": false}, {"name": "Saeed AlHashmi", "sem2": 91.0, "absent": false}, {"name": "Saif Alamoosh", "sem2": 91.0, "absent": false}, {"name": "Sultan Almheiri", "sem2": 95.0, "absent": false}]}, "12D": {"group": "Boys", "students": [{"name": "Abdulla Rashed", "sem2": 85.0, "absent": false}, {"name": "Ahmad Aldallal", "sem2": 88.0, "absent": false}, {"name": "Ahmed Ahli", "sem2": 94.0, "absent": false}, {"name": "Ali Lootah", "sem2": 93.0, "absent": false}, {"name": "Ali Hasan", "sem2": 95.0, "absent": false}, {"name": "Essa Huraiz", "sem2": 85.0, "absent": false}, {"name": "Fahad Tawakul", "sem2": 86.0, "absent": true}, {"name": "Hamad Almashghouni", "sem2": 97.0, "absent": false}, {"name": "Hamdan Hasan", "sem2": 85.0, "absent": false}, {"name": "Khalid Seddiqi", "sem2": 97.0, "absent": false}, {"name": "Khalifa AlZaabi", "sem2": 85.0, "absent": false}, {"name": "Mohamed Masmous", "sem2": 95.0, "absent": false}, {"name": "Mohammad Alrafi", "sem2": 87.0, "absent": false}, {"name": "Mohammad Alaleeli", "sem2": 97.0, "absent": false}, {"name": "Mohammad Dalmook", "sem2": 73.0, "absent": false}, {"name": "Mohammed Alkaabi", "sem2": 91.0, "absent": false}, {"name": "Nahayan Alawar", "sem2": 93.0, "absent": false}, {"name": "Rashed AlShamsi", "sem2": 99.0, "absent": false}, {"name": "Rashed Alserkal", "sem2": 97.0, "absent": false}, {"name": "Rashed AlNuaimi", "sem2": 80.0, "absent": false}, {"name": "Rashed Alkhloofi", "sem2": 99.0, "absent": false}, {"name": "Rashid Ahmad", "sem2": 85.0, "absent": false}, {"name": "Saif AlShehhi", "sem2": 85.0, "absent": false}, {"name": "Saud AlNuaimi", "sem2": 83.0, "absent": false}, {"name": "Shaikh AlSharqi", "sem2": 95.0, "absent": false}, {"name": "Sultan Belhoul", "sem2": 75.0, "absent": false}, {"name": "Sultan AlShamsi", "sem2": 80.0, "absent": false}]}};
+const GROUP = "Boys";
+const TABORDER = ["12B", "12D"];
+const KEY = 'phy_g12_'+GROUP.toLowerCase()+'_marks_v1';
+let store = JSON.parse(localStorage.getItem(KEY) || '{}');
+let current = TABORDER[0];
+function fmt(n){return (n%1===0)? n.toFixed(0) : n.toFixed(2);}
+function buildTabs(){
+  const t=document.getElementById('tabs'); t.innerHTML='';
+  const lb=document.createElement('span'); lb.className='grouplabel'; lb.textContent=GROUP; t.appendChild(lb);
+  TABORDER.forEach(c=>{
+    const b=document.createElement('button');
+    b.className='tab'+(c===current?' active':''); b.textContent=c;
+    b.onclick=()=>{current=c;render();}; t.appendChild(b);
+  });
+}
+function render(){
+  buildTabs();
+  document.getElementById('printtitle').textContent='Class '+current+'  —  Final Exam Recording';
+  const studs=DATA[current].students;
+  const rows=document.getElementById('rows'); rows.innerHTML='';
+  studs.forEach((s,i)=>{
+    const tr=document.createElement('tr');
+    const key=current+'|'+s.name;
+    const val = store[key]!==undefined ? store[key] : '';
+    let feCell, chgCell;
+    if(s.absent){feCell='<span class="abs">ABS</span>';chgCell='<span class="blankcell">—</span>';}
+    else{
+      feCell='<input class="fe'+(val!==''?' filled':'')+'" inputmode="decimal" value="'+val+'" data-key="'+key+'" placeholder="—">';
+      chgCell=changeHTML(s.sem2,val);
+    }
+    const sem2 = s.sem2===null ? '<span class="blankcell">—</span>' : '<span class="sem2">'+fmt(s.sem2)+'</span>';
+    tr.innerHTML='<td class="idx">'+(i+1)+'</td><td class="name">'+s.name+'</td>'+
+                 '<td class="num">'+sem2+'</td><td class="num">'+feCell+'</td><td class="num">'+chgCell+'</td>';
+    rows.appendChild(tr);
+  });
+  rows.querySelectorAll('input.fe').forEach(inp=>inp.addEventListener('input',onInput));
+  buildCards();
+}
+function changeHTML(sem2,val){
+  if(sem2===null||val===''||val===undefined||isNaN(parseFloat(val))) return '<span class="blankcell">—</span>';
+  const d=parseFloat(val)-sem2;
+  const cls=d>0?'up':(d<0?'down':'same'); const arrow=d>0?'▲':(d<0?'▼':'—'); const sign=d>0?'+':'';
+  return '<span class="chg '+cls+'">'+arrow+' '+sign+fmt(d)+'</span>';
+}
+function onInput(e){
+  let v=e.target.value.replace(/[^0-9.]/g,'');
+  if(v!==''){let n=parseFloat(v); if(!isNaN(n)&&n>100)v='100';}
+  e.target.value=v;
+  const key=e.target.dataset.key;
+  if(v==='') delete store[key]; else store[key]=v;
+  localStorage.setItem(KEY,JSON.stringify(store));
+  e.target.classList.toggle('filled',v!=='');
+  const tr=e.target.closest('tr'); const name=tr.querySelector('.name').textContent;
+  const s=DATA[current].students.find(x=>x.name===name);
+  tr.children[4].innerHTML=changeHTML(s.sem2,v); buildCards();
+}
+function buildCards(){
+  const studs=DATA[current].students.filter(s=>!s.absent);
+  const sem2vals=studs.filter(s=>s.sem2!==null).map(s=>s.sem2);
+  const sem2avg=sem2vals.reduce((a,b)=>a+b,0)/(sem2vals.length||1);
+  let feSum=0,feN=0,dSum=0,dN=0;
+  studs.forEach(s=>{const v=store[current+'|'+s.name];
+    if(v!==undefined&&v!==''&&!isNaN(parseFloat(v))){feSum+=parseFloat(v);feN++;
+      if(s.sem2!==null){dSum+=parseFloat(v)-s.sem2;dN++;}}});
+  const total=DATA[current].students.length;
+  const feavg=feN?(feSum/feN):null; const davg=dN?(dSum/dN):null;
+  const dcls=davg===null?'same':(davg>0?'up':(davg<0?'down':'same'));
+  const dtxt=davg===null?'—':((davg>0?'+':'')+fmt(davg));
+  document.getElementById('cards').innerHTML=
+    card('Students', total+' <small>('+feN+' entered)</small>')+
+    card('Sem 2 Average', fmt(sem2avg))+
+    card('Final Exam Avg', feavg===null?'—':fmt(feavg))+
+    card('Avg Change','<span class="chg '+dcls+'">'+dtxt+'</span>');
+}
+function card(k,v){return '<div class="card"><div class="k">'+k+'</div><div class="v">'+v+'</div></div>';}
+function resetAll(){if(!confirm('Clear all Final Exam marks you have typed? This cannot be undone.'))return;
+  store={};localStorage.removeItem(KEY);render();}
+function xesc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function exportWorkbook(){
+  let sheets='';
+  TABORDER.forEach(c=>{
+    let rows='<Row ss:Height="22">'+th('Student Name')+th('Semester 2 Avg')+th('Final Exam')+th('Change')+'</Row>';
+    DATA[c].students.forEach(s=>{
+      const v=store[c+'|'+s.name]; let fe,chg;
+      if(s.absent){fe=tc('ABS','String','abs');chg=tc('','String');}
+      else{const has=(v!==undefined&&v!==''&&!isNaN(parseFloat(v)));
+        fe=has?tc(parseFloat(v),'Number'):tc('','String');
+        const d=(has&&s.sem2!==null)?parseFloat(v)-s.sem2:null;
+        chg=d===null?tc('','String'):tc(d,'Number',d>0?'up':(d<0?'down':''));}
+      const sem2=s.sem2===null?tc('','String'):tc(s.sem2,'Number');
+      rows+='<Row>'+tc(s.name,'String','name')+sem2+fe+chg+'</Row>';
+    });
+    sheets+='<Worksheet ss:Name="'+c+'"><Table>'+
+      '<Column ss:Width="190"/><Column ss:Width="110"/><Column ss:Width="90"/><Column ss:Width="90"/>'+
+      rows+'</Table>'+
+      '<WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel"><FreezePanes/><FrozenNoSplit/><SplitHorizontal>1</SplitHorizontal><TopRowBottomPane>1</TopRowBottomPane><ActivePane>2</ActivePane></WorksheetOptions></Worksheet>';
+  });
+  const xml='<?xml version="1.0"?>\n<?mso-application progid="Excel.Sheet"?>\n'+
+   '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:o="urn:schemas-microsoft-com:office:office" '+
+   'xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" '+
+   'xmlns:html="http://www.w3.org/TR/REC-html40"><Styles>'+
+   '<Style ss:ID="Default"><Alignment ss:Vertical="Center"/><Font ss:FontName="Calibri" ss:Size="11"/></Style>'+
+   '<Style ss:ID="hdr"><Font ss:Bold="1" ss:Color="#FFFFFF" ss:Size="11"/><Interior ss:Color="#0F2747" ss:Pattern="Solid"/><Alignment ss:Horizontal="Center" ss:Vertical="Center"/></Style>'+
+   '<Style ss:ID="name"><Font ss:Bold="1"/></Style>'+
+   '<Style ss:ID="up"><Font ss:Bold="1" ss:Color="#16A34A"/><Alignment ss:Horizontal="Center"/></Style>'+
+   '<Style ss:ID="down"><Font ss:Bold="1" ss:Color="#DC2626"/><Alignment ss:Horizontal="Center"/></Style>'+
+   '<Style ss:ID="abs"><Font ss:Bold="1" ss:Color="#B91C1C"/><Alignment ss:Horizontal="Center"/></Style>'+
+   '</Styles>'+sheets+'</Workbook>';
+  download('Physics_G12_'+GROUP+'.xls', xml, 'application/vnd.ms-excel');
+}
+function th(t){return '<Cell ss:StyleID="hdr"><Data ss:Type="String">'+xesc(t)+'</Data></Cell>';}
+function tc(v,type,style){const st=style?' ss:StyleID="'+style+'"':'';
+  if(v===''||v===null||v===undefined)return '<Cell'+st+'/>';
+  return '<Cell'+st+'><Data ss:Type="'+type+'">'+xesc(v)+'</Data></Cell>';}
+function download(fname,content,mime){const blob=new Blob([content],{type:mime});const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);a.download=fname;document.body.appendChild(a);a.click();document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(a.href),1500);}
+render();
+</script>
+</body>
+</html>
